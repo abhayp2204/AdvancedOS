@@ -83,7 +83,7 @@ void inputGoals()
         printgn(i+1);
         printg(": ");
 
-        scanf("%c %d %d", 
+        scanf("%c %d %lf", 
               &Goal[i].Team,
               &Goal[i].Time,
               &Goal[i].Prob);
