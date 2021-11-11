@@ -2,7 +2,6 @@
 #include "variables.h"
 #include "functions.h"
 #include "utility.h"
-
 #include "input.c"
 
 struct stxyz
@@ -22,6 +21,13 @@ void main()
     printGroup(1);
 
     getSpectators(1);
+
+    scoreGoal(1);
+    scoreGoal(2);
+    scoreGoal(3);
+    scoreGoal(4);
+    scoreGoal(5);
+    scoreGoal(6);
 }
 
 void getSpectators(Time t)
@@ -52,7 +58,7 @@ void getSpectators(Time t)
         }
     }
 
-    printStruct(c);
+    // printStruct(c);
 
     pthread_t thread[c];
     for(int i = 0; i < c; i++)
@@ -69,7 +75,7 @@ void printStruct(int c)
 {
     for(int i = 0; i < c; i++)
     {
-        printf("\n(%d, %d)", s[i].group_no + 1, s[i].person_no + 1);
+        printf("(%d, %d)\n", s[i].group_no + 1, s[i].person_no + 1);
     }
 }
 
@@ -80,9 +86,26 @@ void* reachStadium(void* arg)
     int G = s.group_no;
     int P = s.person_no;
 
-    printf("\n");
     printc(Group[G].Person[P].Name);
-    printc(" has reached the stadium");
+    printc(" has reached the stadium\n");
 
     return NULL;
+}
+
+void scoreGoal(Time t)
+{
+    char str[1];
+
+    // Iterate through the goals
+    for(int i = 0; i < G; i++)
+    {
+        if(Goal[i].GoalTime != t)
+            continue;
+
+        str[0] = Goal[i].Team;
+        
+        printy("Team ");
+        printy(str);
+        printy(P(Goal[i].GoalProb)? " has scored a goal\n" : " has missed their chance to score a goal\n");
+    }
 }

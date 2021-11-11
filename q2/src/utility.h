@@ -12,6 +12,16 @@ void a()
     printf("Fish\n");
 }
 
+// Random number between 0 and 1
+int P(float n)
+{
+    if(n == 1) return 1;
+
+    srand(time(0));
+    float p = (float)rand() / (float)RAND_MAX;
+    return (p < n);
+}
+
 // Color print
 void printb(char s[])
 {
@@ -48,4 +58,12 @@ void printc(char s[])
 void printcn(int n)
 {
     printf(COLOR_CYAN "%d" COLOR_RESET, n);
+}
+void printy(char s[])
+{
+    printf(COLOR_YELLOW "%s" COLOR_RESET, s);
+}
+void printyn(int n)
+{
+    printf(COLOR_YELLOW "%d" COLOR_RESET, n);
 }

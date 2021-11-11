@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>   
+#include <pthread.h>
+#include <time.h>
 
 // Colors
 #define COLOR_RED     "\x1b[31m"
@@ -55,7 +56,7 @@ struct stGoal
 {
     char Team;
     Time GoalTime;
-    float Prob;
+    float GoalProb;
 };
 tGoal* Goal;
 

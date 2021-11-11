@@ -84,19 +84,20 @@ void inputGoals()
         scanf("%c %d %f", 
               &Goal[i].Team,
               &Goal[i].GoalTime,
-              &Goal[i].Prob);
+              &Goal[i].GoalProb);
     }   
+    printf("\n");
 }
 
 void printZone(int i)
 {
     printf("Type = %c\n", Zone[i].Type);
-    printf("Capacity = %d\n", Zone[i].Capacity);
+    printf("Capacity = %d\n\n", Zone[i].Capacity);
 }
 
 void printGroup(int i)
 {
-    printr("\n(Group ");
+    printr("(Group ");
     printrn(i+1);
     printr(")\n");
 
@@ -116,4 +117,5 @@ void printGroup(int i)
         printf("%d  ", Group[i].Person[j].Patience);
         printf("%d\n", Group[i].Person[j].EnrageNum);
     }
+    printf("\n");
 }

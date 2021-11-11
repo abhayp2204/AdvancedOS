@@ -12,8 +12,12 @@ void getSpectators(Time t);
 void printStruct(int c);
 void* reachStadium(void* arg);
 
+void scoreGoal();
+
+// Utility
 void flushSTDIN();
 void a();
+int P(float n);
 void printb(char s[]);
 void printr(char s[]);
 
