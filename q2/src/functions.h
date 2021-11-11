@@ -8,6 +8,10 @@ void input();
     void printZone(int i);
     void printGroup(int i);
 
+void getSpectators(Time t);
+void printStruct(int c);
+void* reachStadium(void* arg);
+
 void flushSTDIN();
 void a();
 void printb(char s[]);

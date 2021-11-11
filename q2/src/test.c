@@ -3,29 +3,50 @@
 #include <unistd.h>
 #include <pthread.h>
 
-void* myturn(void* arg)
+#define BIG 10000000
+uint counter = 0;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
+void* count1(void* arg)
 {
-    while(1)
+    for(int i = 1; i <= BIG; i++)
     {
-        sleep(1);
-        printf("My turn!\n");
+        pthread_mutex_lock(&lock);
+        counter++;
+        pthread_mutex_unlock(&lock);
     }
+    sleep(5);
     return NULL;
 }
 
-void yourturn()
+void count2()
 {
-    while(1)
+    for(int i = 1; i <= BIG; i++)
     {
-        sleep(2);
-        printf("Your turn!\n");
+        pthread_mutex_lock(&lock);
+        counter++;
+        pthread_mutex_unlock(&lock);
     }
+    sleep(5);
 }
 
-int main()
+void count3()
 {
-    pthread_t newThread;
+    for(int i = 1; i <= BIG; i++)
+    {
+        counter++;
+    }
+    sleep(5);
+}
 
-    pthread_create(&newThread, NULL, myturn, NULL);
-    yourturn();
+void main()
+{
+    pthread_t thread;
+
+    pthread_create(&thread, NULL, count1, NULL);
+    count2();
+    // count3();
+
+    // pthread_join(thread, NULL);
+    printf("Counter = %d\n", counter);
 }

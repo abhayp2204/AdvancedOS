@@ -33,3 +33,19 @@ void printgn(int n)
 {
     printf(COLOR_GREEN "%d" COLOR_RESET, n);
 }
+void printm(char s[])
+{
+    printf(COLOR_MAGENTA "%s" COLOR_RESET, s);
+}
+void printmn(int n)
+{
+    printf(COLOR_MAGENTA "%d" COLOR_RESET, n);
+}
+void printc(char s[])
+{
+    printf(COLOR_CYAN "%s" COLOR_RESET, s);
+}
+void printcn(int n)
+{
+    printf(COLOR_CYAN "%d" COLOR_RESET, n);
+}
