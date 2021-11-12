@@ -20,15 +20,6 @@
 // Types
 typedef uint Time;
 
-// Zone Structure
-typedef struct stZone tZone;
-struct stZone
-{
-    char Type;
-    uint Capacity;
-    uint Spectators;
-};
-tZone Zone[3];
 
 // Person Structure
 typedef struct stPerson tPerson;
@@ -40,6 +31,18 @@ struct stPerson
     Time Patience;
     int EnrageNum;
 };
+
+// Zone Structure
+typedef struct stZone tZone;
+struct stZone
+{
+    char Type;
+    uint Capacity;
+    uint NumSpectators;
+    tPerson* Spectator;
+
+};
+tZone Zone[3];
 
 // Group Structure
 typedef struct stGroup tGroup;

@@ -28,7 +28,9 @@ void inputZones()
     // Initialize number of spectators
     for(int i = 0; i < 3; i++)
     {
-        Zone[i].Spectators = 0;
+        Zone[i].NumSpectators = 0;
+        int* a = malloc(2 * sizeof(int));
+        Zone[i].Spectator = (tPerson*)malloc(20*sizeof(tPerson));
     }
 
     printb("Home | Away | Neutral\n");
@@ -92,7 +94,12 @@ void inputGoals()
 void printZone(int i)
 {
     printf("Type = %c\n", Zone[i].Type);
-    printf("Capacity = %d\n\n", Zone[i].Capacity);
+    printf("Capacity = %d\n", Zone[i].Capacity);
+    for(int j = 0; j < Zone[i].NumSpectators; j++)
+    {
+        printf("%d: %s\n", j+1, Zone[i].Spectator[j].Name);
+    }
+    printf("\n");
 }
 
 void printGroup(int i)

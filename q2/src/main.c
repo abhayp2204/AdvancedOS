@@ -11,15 +11,12 @@ void main()
     printf(COLOR_YELLOW "Simulation has started!\n" COLOR_RESET);
     input();
 
-    printGroup(0);
-    printGroup(1);
+    // printGroup(0);
+    // printGroup(1);
+
 
     getSpectators(1);
-
+    printZone(HOME);
     scoreGoal(1);
-    scoreGoal(2);
-    scoreGoal(3);
-    scoreGoal(4);
-    scoreGoal(5);
-    scoreGoal(6);
+    // leave();
 }

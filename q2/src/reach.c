@@ -114,27 +114,28 @@ void* reachStadium(void* arg)
 
 int isZoneFull(int i)
 {
-    return (Zone[i].Spectators == Zone[i].Capacity);
+    return (Zone[i].NumSpectators == Zone[i].Capacity);
+}
+
+void seatH(int G, int P)
+{
+    Zone[HOME].Spectator[Zone[HOME].NumSpectators] = Group[G].Person[P];
+    Zone[HOME].NumSpectators++;
+    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone H\n"));
+}
+void seatA(int G, int P)
+{
+    Zone[AWAY].NumSpectators++;
+    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone A\n"));
+}
+void seatN(int G, int P)
+{
+    Zone[NEUT].NumSpectators++;
+    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone N\n"));
 }
 
 void printStruct(int c)
 {
     for(int i = 0; i < c; i++)
         printf("(%d, %d)\n", s[i].group_no + 1, s[i].person_no + 1);
-}
-
-void seatH(int G, int P)
-{
-    Zone[HOME].Spectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone H\n"));
-}
-void seatA(int G, int P)
-{
-    Zone[AWAY].Spectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone A\n"));
-}
-void seatN(int G, int P)
-{
-    Zone[NEUT].Spectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone N\n"));
 }
