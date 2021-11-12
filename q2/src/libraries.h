@@ -60,4 +60,12 @@ struct stGoal
 };
 tGoal* Goal;
 
+struct stPersonInfo
+{
+    int group_no;
+    int person_no;
+};
+typedef struct stPersonInfo PersonInfo;
+PersonInfo s[10];
+
 #endif

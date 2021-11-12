@@ -13,7 +13,7 @@ void a()
 }
 
 // Random number between 0 and 1
-int P(float n)
+int Prob(float n)
 {
     if(n == 1) return 1;
 

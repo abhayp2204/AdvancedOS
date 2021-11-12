@@ -12,4 +12,9 @@ int X;               // Spectating time
 int num_groups;      // Total number of groups
 int G;               // Number of goal scoring chances
 
+int H_Goals = 0;
+int A_Goals = 0;
+
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
 #endif
