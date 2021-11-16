@@ -41,11 +41,13 @@ void* reachStadium(void* arg)
     pthread_mutex_lock(&lock);
         printc(Group[G].Person[P].Name);
         printc(" has reached the stadium\n");
+        // a();
+        // printf("this = %c\n", Group[G].Person[P].SupportTeam);
 
         if(Group[G].Person[P].SupportTeam == 'H')
         {
             if(isZoneFull(HOME) && isZoneFull(NEUT))
-                printm(strcat(Group[G].Person[P].Name, " could not get a seat\n"));
+                noSeat(G, P);
             else if(isZoneFull(HOME))
                 seatN(G, P);
             else if(isZoneFull(NEUT))
@@ -61,14 +63,15 @@ void* reachStadium(void* arg)
         if(Group[G].Person[P].SupportTeam == 'A')
         {
             if(isZoneFull(AWAY))
-                printm(strcat(Group[G].Person[P].Name, " could not get a seat\n"));
+                noSeat(G, P);
             else
                 seatA(G, P);
         }
         if(Group[G].Person[P].SupportTeam == 'N')
         {
+            // a();
             if(isZoneFull(HOME) && isZoneFull(AWAY) && isZoneFull(NEUT))
-                printm(strcat(Group[G].Person[P].Name, " could not get a seat\n"));
+                noSeat(G, P);
             else if(isZoneFull(HOME) && isZoneFull(AWAY))
                 seatN(G, P);
             else if(isZoneFull(HOME) && isZoneFull(NEUT))
@@ -112,24 +115,28 @@ void* reachStadium(void* arg)
     return NULL;
 }
 
-int isZoneFull(int i)
+void noSeat(int G, int P)
 {
-    return (Zone[i].NumSpectators == Zone[i].Capacity);
+    printm(Group[G].Person[P].Name);
+    printm(" could not get a seat\n");
+    WaitSeat.Person[WaitSeat.Num++] = Group[G].Person[P];
 }
-
 void seatH(int G, int P)
 {
     Zone[HOME].Spectator[Zone[HOME].NumSpectators] = Group[G].Person[P];
+    // Zone[HOME].Seat[Zone[HOME].NumSpectators] = Group[G].Person[P];
     Zone[HOME].NumSpectators++;
     printm(strcat(Group[G].Person[P].Name, " has got a seat in zone H\n"));
 }
 void seatA(int G, int P)
 {
+    Zone[AWAY].Spectator[Zone[AWAY].NumSpectators] = Group[G].Person[P];
     Zone[AWAY].NumSpectators++;
     printm(strcat(Group[G].Person[P].Name, " has got a seat in zone A\n"));
 }
 void seatN(int G, int P)
 {
+    Zone[NEUT].Spectator[Zone[NEUT].NumSpectators] = Group[G].Person[P];
     Zone[NEUT].NumSpectators++;
     printm(strcat(Group[G].Person[P].Name, " has got a seat in zone N\n"));
 }
@@ -138,4 +145,12 @@ void printStruct(int c)
 {
     for(int i = 0; i < c; i++)
         printf("(%d, %d)\n", s[i].group_no + 1, s[i].person_no + 1);
+}
+
+void printWaitSeat()
+{
+    for(int i = 0; i < WaitSeat.Num; i++)
+    {
+        printf("%d: %s\n", i+1, WaitSeat.Person[i].Name);
+    }
 }

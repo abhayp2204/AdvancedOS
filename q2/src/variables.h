@@ -10,6 +10,7 @@
 
 int X;               // Spectating time
 int num_groups;      // Total number of groups
+int num_people = 0;
 int G;               // Number of goal scoring chances
 
 int H_Goals = 0;

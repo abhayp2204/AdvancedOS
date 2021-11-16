@@ -11,14 +11,23 @@ void input();
 void getSpectators(Time t);
 void printStruct(int c);
 void* reachStadium(void* arg);
-// void* getSeat(void* arg);
+void leave();
+void waitSeat();
+void printWaitSeat();
 
 int isZoneFull(int Zone);
+void noSeat(int G, int P);
 void seatH(int G, int P);
 void seatA(int G, int P);
 void seatN(int G, int P);
 
 void scoreGoal();
+
+void* person_function(void* arg);
+int seatAvailable(int i);
+
+void reach(int i, int j);
+void seat(int i, int j);
 
 // Utility
 void flushSTDIN();

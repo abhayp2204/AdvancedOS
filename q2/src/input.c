@@ -21,29 +21,40 @@ void input()
 
 void inputZones()
 {
-    Zone[0].Type = 'H'; // Home
-    Zone[1].Type = 'A'; // Away
-    Zone[2].Type = 'N'; // Neutral
-
-    // Initialize number of spectators
-    for(int i = 0; i < 3; i++)
-    {
-        Zone[i].NumSpectators = 0;
-        int* a = malloc(2 * sizeof(int));
-        Zone[i].Spectator = (tPerson*)malloc(20*sizeof(tPerson));
-    }
+    Zone[0].Type = 'H';         // Home
+    Zone[1].Type = 'A';         // Away
+    Zone[2].Type = 'N';         // Neutral
 
     printb("Home | Away | Neutral\n");
     scanf("%d %d %d", &Zone[0].Capacity, &Zone[1].Capacity, &Zone[2].Capacity);
-    // printZone(0);
-    // printZone(1);
-    // printZone(2);
+
+    // Initialize the zone
+    for(int i = 0; i < 3; i++)
+    {
+        Zone[i].NumSpectators = 0;
+        Zone[i].Spectator = (tPerson*)malloc(Zone[i].Capacity * sizeof(tPerson));
+        Zone[i].SeatLocks = malloc(Zone[i].Capacity * sizeof(pthread_mutex_t));
+        Zone[i].Seat = malloc(Zone[i].Capacity * sizeof(tSeat));
+
+        // Initialize the lock for each seat in a zone
+        for(int j = 0; j < Zone[i].Capacity; j++)
+        {
+            pthread_mutex_init(&Zone[i].SeatLocks[j], NULL);
+
+        }
+    }
+    WaitSeat.Person = (tPerson*)malloc(20*sizeof(tPerson));
+
+    // printZone(HOME);
+    // printZone(AWAY);
+    // printZone(NEUT);
 }
 
 void inputGroups()
 {
     Group = (tGroup*)malloc(num_groups * sizeof(tGroup));
 
+    // Iterate through the groups
     for(int i = 0; i < num_groups; i++)
     {
         flushSTDIN();
@@ -54,8 +65,12 @@ void inputGroups()
         // Number of people in group i
         printr("Number: ");
         scanf("%d", &Group[i].k);
+        num_people += Group[i].k;
 
+        // Allocate memory for all persons in a group
         Group[i].Person = (tPerson*)malloc(Group[i].k * sizeof(tPerson));
+        
+        // Iterate through the persons
         for(int j = 0; j < Group[i].k; j++)
         {
             printr("P");
@@ -93,7 +108,7 @@ void inputGoals()
 
 void printZone(int i)
 {
-    printf("Type = %c\n", Zone[i].Type);
+    printf("\nType = %c\n", Zone[i].Type);
     printf("Capacity = %d\n", Zone[i].Capacity);
     for(int j = 0; j < Zone[i].NumSpectators; j++)
     {

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <unistd.h>
 
 // Colors
 #define COLOR_RED     "\x1b[31m"
@@ -20,16 +21,23 @@
 // Types
 typedef uint Time;
 
-
 // Person Structure
 typedef struct stPerson tPerson;
 struct stPerson
 {
-    char Name[20];
+    int dump[10];
+    char Name[100];
     char SupportTeam;
+    char SeatedZone;
     Time ArrivalTime;
     Time Patience;
     int EnrageNum;
+};
+// Seat Structure
+typedef struct stSeat tSeat;
+struct stSeat
+{
+    tPerson Person;
 };
 
 // Zone Structure
@@ -40,16 +48,20 @@ struct stZone
     uint Capacity;
     uint NumSpectators;
     tPerson* Spectator;
-
+    tSeat* Seat;
+    pthread_mutex_t* SeatLocks;
 };
 tZone Zone[3];
+
 
 // Group Structure
 typedef struct stGroup tGroup;
 struct stGroup
 {
+    int dump[10];
     int k;
     tPerson* Person;
+    pthread_t th[];
 };
 tGroup* Group;
 
@@ -63,6 +75,7 @@ struct stGoal
 };
 tGoal* Goal;
 
+// Person info structure
 struct stPersonInfo
 {
     int group_no;
@@ -70,5 +83,21 @@ struct stPersonInfo
 };
 typedef struct stPersonInfo PersonInfo;
 PersonInfo s[10];
+
+struct stWaitSeat
+{
+    tPerson* Person;
+    int Num;
+};
+typedef struct stWaitSeat tWaitSeat;
+tWaitSeat WaitSeat;
+
+struct stPersonID
+{
+    int dump[10];
+    int groupNo;
+    int personNo;
+};
+typedef struct stPersonID tPersonID;
 
 #endif

@@ -11,6 +11,24 @@ void a()
 {
     printf("Fish\n");
 }
+void b()
+{
+    printf("Shark\n");
+}
+void coord(int i, int j)
+{
+    printf("(%d, %d) %s\n", i+1, j+1, Group[i].Person[j].Name);
+}
+
+int getZoneAsInt(char c)
+{
+    switch(c)
+    {
+        case 'H': return HOME;
+        case 'A': return AWAY;
+        case 'N': return NEUT;
+    }
+}
 
 // Random number between 0 and 1
 int Prob(float n)
