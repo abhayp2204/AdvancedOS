@@ -30,6 +30,16 @@ int getZoneAsInt(char c)
     }
 }
 
+char getZoneAsChar(int zone)
+{
+    switch(zone)
+    {
+        case HOME: return 'H';
+        case AWAY: return 'A';
+        case NEUT: return 'N';
+    }
+}
+
 // Random number between 0 and 1
 int Prob(float n)
 {
@@ -38,6 +48,12 @@ int Prob(float n)
     srand(time(0));
     float p = (float)rand() / (float)RAND_MAX;
     return (p < n);
+}
+float R()
+{
+    srand(time(0));
+    float p = (float)rand() / (float)RAND_MAX;
+    return p;
 }
 
 // Color print
