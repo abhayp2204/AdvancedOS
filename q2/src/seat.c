@@ -37,10 +37,14 @@ void seat(int i, int j, int team, int s)
     strcpy(name, Group[i].Person[j].Name);
 
     printy(strcat(strcat(name, " has got a seat in zone "), str));
-    // pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
-    // sleep(X);
-    // printf(COLOR_BLUE "%s is leaving for home\n" COLOR_RESET, name);
-    // usleep(50);
+
+    pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
+    sleep(X);
+
+    char* string = malloc(50);
+    strcpy(string, Group[i].Person[j].Name);
+    strcat(string, " is leaving for home\n");
+    printb(string);
 }
 
 int probHome()
