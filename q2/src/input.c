@@ -79,6 +79,7 @@ void inputGroups()
                   &Group[i].Person[j].ArrivalTime,
                   &Group[i].Person[j].Patience,
                   &Group[i].Person[j].EnrageNum);
+            // Group[i].Person[j].status = REACHED;
         }
     }
 }

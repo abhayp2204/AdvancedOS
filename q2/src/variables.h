@@ -8,6 +8,9 @@
 #define AWAY 1
 #define NEUT 2
 
+#define REACHED 11
+#define WAITING 12
+
 int X;               // Spectating time
 int num_groups;      // Total number of groups
 int num_people = 0;

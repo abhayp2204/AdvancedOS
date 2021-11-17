@@ -43,11 +43,10 @@ void leaveAWAY()
         // Check enrage number
         if(H_Goals >= P.EnrageNum)
         {
-            Zone[AWAY].Seat[i].Person.Name[0] = '\0';
-            Zone[AWAY].Seat[i].Person.EnrageNum = -1;
-
             usleep(50);
-            printr(strcat(P.Name, " is leaving due to bad performance of his team\n"));
+            printr(strcat(Zone[AWAY].Seat[i].Person.Name, " is leaving due to bad performance of his team\n"));
+            Zone[AWAY].Seat[i].Person.Name[0] = '\0';
+            Zone[AWAY].Seat[i].Person.EnrageNum = -10;
         }
     }
 }

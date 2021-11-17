@@ -40,11 +40,16 @@ void seat(int i, int j, int team, int s)
 
     pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
     sleep(X);
+    pthread_mutex_lock(&Zone[team].SeatLocks[s]);
 
-    char* string = malloc(50);
+    // Form string and print
+    char* string = malloc(100);
     strcpy(string, Group[i].Person[j].Name);
     strcat(string, " is leaving for home\n");
-    printb(string);
+
+    // printmn(Group[i].Person[j].EnrageNum);
+    printm(string);
+    // printf("Name = %s Enrage = %d\n", Zone[team].Seat[s].Person.Name, Zone[team].Seat[s].Person.EnrageNum);
 }
 
 int probHome()
