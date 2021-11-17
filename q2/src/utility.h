@@ -40,7 +40,6 @@ char getZoneAsChar(int zone)
     }
 }
 
-// Random number between 0 and 1
 int Prob(float n)
 {
     if(n == 1) return 1;
@@ -49,6 +48,7 @@ int Prob(float n)
     float p = (float)rand() / (float)RAND_MAX;
     return (p < n);
 }
+// Random number between 0 and 1
 float R()
 {
     srand(time(0));

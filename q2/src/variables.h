@@ -17,5 +17,6 @@ int H_Goals = 0;
 int A_Goals = 0;
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_t* goal_thread;
 
 #endif

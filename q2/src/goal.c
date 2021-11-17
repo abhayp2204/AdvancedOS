@@ -2,39 +2,34 @@
 #include "variables.h"
 #include "functions.h"
 
-void scoreGoal(Time t)
+void *goal_function(void* arg)
 {
-    char str[1];
+    int i = *(int*)arg;
+    // pthread_mutex_lock(&Goal[i].GoalLock);
+    // printf("G: i=%d time=%d prob=%f\n", i, Goal[i].GoalTime, Goal[i].GoalProb);
+    sleep(Goal[i].GoalTime);
+    usleep(100);
 
-    // Iterate through the goals
-    for(int i = 0; i < G; i++)
+    // Goal scored
+    if(Prob(Goal[i].GoalProb))
     {
-        if(Goal[i].GoalTime != t)
-            continue;
-
-        str[0] = Goal[i].Team;
-        
-        printy("Team ");
-        printy(str);
-
-        // If they score
-        if(Prob(Goal[i].GoalProb))
+        // HOME team scores
+        if(Goal[i].Team == 'H')
         {
-            printy(" has scored their ");
-            if(Goal[i].Team == 'H')
-            {
-                H_Goals++;
-                printyn(H_Goals);
-            }
-            else
-            {
-                A_Goals++;
-                printyn(A_Goals);
-            }
-            printy(" goal\n");
-            continue;
+            H_Goals++;
+            printf(COLOR_GREEN "Team H has scored their %d goal!\n" COLOR_RESET, H_Goals);
+            leaveAWAY();
         }
-
-        printy(" has missed their chance to score a goal\n");     
+        // AWAY team scores
+        else
+        {
+            A_Goals++;
+            printf(COLOR_GREEN "Team A has scored their %d goal!\n" COLOR_RESET, A_Goals);
+            leaveHOME();
+        }
+        
+        return NULL;
     }
+    // Goal Missed
+    printf(COLOR_GREEN "Team %c has missed!\n" COLOR_RESET, Goal[i].Team);
 }

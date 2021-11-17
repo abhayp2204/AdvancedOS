@@ -33,6 +33,7 @@ struct stPerson
     Time Patience;
     int EnrageNum;
 };
+
 // Seat Structure
 typedef struct stSeat tSeat;
 struct stSeat
@@ -53,7 +54,6 @@ struct stZone
 };
 tZone Zone[3];
 
-
 // Group Structure
 typedef struct stGroup tGroup;
 struct stGroup
@@ -69,9 +69,11 @@ tGroup* Group;
 typedef struct stGoal tGoal;
 struct stGoal
 {
+    int dump[30];
     char Team;
     Time GoalTime;
     float GoalProb;
+    pthread_mutex_t GoalLock;
 };
 tGoal* Goal;
 

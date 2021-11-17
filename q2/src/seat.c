@@ -3,11 +3,6 @@
 #include "functions.h"
 #include "utility.h"
 
-int isZoneFull(int i)
-{
-    return (Zone[i].NumSpectators == Zone[i].Capacity);
-}
-
 int seatAvailable(int teamNum)
 {
     for(int i = 0; i < Zone[teamNum].Capacity; i++)
@@ -24,43 +19,9 @@ int seatAvailable(int teamNum)
 
 void noSeat(int G, int P)
 {
-    printm(Group[G].Person[P].Name);
-    printm(" could not get a seat\n");
+    printy(Group[G].Person[P].Name);
+    printy(" could not get a seat\n");
     WaitSeat.Person[WaitSeat.Num++] = Group[G].Person[P];
-}
-
-void seatH(int G, int P)
-{
-    Zone[HOME].Spectator[Zone[HOME].NumSpectators] = Group[G].Person[P];
-    // Zone[HOME].Seat[Zone[HOME].NumSpectators] = Group[G].Person[P];
-    Zone[HOME].NumSpectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone H\n"));
-}
-void seatA(int G, int P)
-{
-    Zone[AWAY].Spectator[Zone[AWAY].NumSpectators] = Group[G].Person[P];
-    Zone[AWAY].NumSpectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone A\n"));
-}
-void seatN(int G, int P)
-{
-    Zone[NEUT].Spectator[Zone[NEUT].NumSpectators] = Group[G].Person[P];
-    Zone[NEUT].NumSpectators++;
-    printm(strcat(Group[G].Person[P].Name, " has got a seat in zone N\n"));
-}
-
-void printStruct(int c)
-{
-    for(int i = 0; i < c; i++)
-        printf("(%d, %d)\n", s[i].group_no + 1, s[i].person_no + 1);
-}
-
-void printWaitSeat()
-{
-    for(int i = 0; i < WaitSeat.Num; i++)
-    {
-        printf("%d: %s\n", i+1, WaitSeat.Person[i].Name);
-    }
 }
 
 void seat(int i, int j, int team, int s)
@@ -72,9 +33,14 @@ void seat(int i, int j, int team, int s)
     str[0] = getZoneAsChar(team);
     str[1] = '\n';
 
-    printm(strcat(strcat(Group[i].Person[j].Name, " has got a seat in zone "), str));
-    // printmn(Zone[team].NumSpectators);
-    // printm("\n");
+    char* name = malloc(50);
+    strcpy(name, Group[i].Person[j].Name);
+
+    printy(strcat(strcat(name, " has got a seat in zone "), str));
+    // pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
+    // sleep(X);
+    // printf(COLOR_BLUE "%s is leaving for home\n" COLOR_RESET, name);
+    // usleep(50);
 }
 
 int probHome()
@@ -111,4 +77,23 @@ int probNeut()
 int probAway()
 {
     return AWAY;
+}
+
+int isZoneFull(int i)
+{
+    return (Zone[i].NumSpectators == Zone[i].Capacity);
+}
+
+void printStruct(int c)
+{
+    for(int i = 0; i < c; i++)
+        printf("(%d, %d)\n", s[i].group_no + 1, s[i].person_no + 1);
+}
+
+void printWaitSeat()
+{
+    for(int i = 0; i < WaitSeat.Num; i++)
+    {
+        printf("%d: %s\n", i+1, WaitSeat.Person[i].Name);
+    }
 }

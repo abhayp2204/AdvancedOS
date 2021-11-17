@@ -16,6 +16,7 @@ void input()
 
     printg("\nNumber of goal scoring chances: ");
     scanf("%d", &G);
+    goal_thread = (pthread_t*)malloc(G * sizeof(pthread_t));
     inputGoals();
 }
 
@@ -28,26 +29,22 @@ void inputZones()
     printb("Home | Away | Neutral\n");
     scanf("%d %d %d", &Zone[0].Capacity, &Zone[1].Capacity, &Zone[2].Capacity);
 
-    // Initialize the zone
+    // Iterate through all the zones
     for(int i = 0; i < 3; i++)
     {
+        // Intialize zones and Create locks for every seat
         Zone[i].NumSpectators = 0;
         Zone[i].Spectator = (tPerson*)malloc(Zone[i].Capacity * sizeof(tPerson));
-        Zone[i].SeatLocks = malloc(Zone[i].Capacity * sizeof(pthread_mutex_t));
         Zone[i].Seat = malloc(Zone[i].Capacity * sizeof(tSeat));
-
+        Zone[i].SeatLocks = malloc(Zone[i].Capacity * sizeof(pthread_mutex_t));
+        
         // Initialize the lock for each seat in a zone
         for(int j = 0; j < Zone[i].Capacity; j++)
         {
             pthread_mutex_init(&Zone[i].SeatLocks[j], NULL);
-
         }
     }
     WaitSeat.Person = (tPerson*)malloc(20*sizeof(tPerson));
-
-    // printZone(HOME);
-    // printZone(AWAY);
-    // printZone(NEUT);
 }
 
 void inputGroups()
@@ -92,6 +89,7 @@ void inputGoals()
 
     for(int i = 0; i < G; i++)
     {
+        pthread_mutex_init(&Goal[i].GoalLock, NULL);
         flushSTDIN();
 
         printg("G");
@@ -140,4 +138,12 @@ void printGroup(int i)
         printf("%d\n", Group[i].Person[j].EnrageNum);
     }
     printf("\n");
+}
+
+void printGoals()
+{
+    for(int i = 0; i < G; i++)
+    {
+        printf("G%d: %c %d %f\n", i+1, Goal[i].Team, Goal[i].GoalTime, Goal[i].GoalProb);
+    }
 }
