@@ -17,14 +17,17 @@ void main()
 
     printy("Simulation has started!\n");
     input();
-    printf("-----------------------------------------------\n");
+    printf("-----------------------------------------------------\n");
     tPersonID PersonID[num_people];
 
     // Person Threads
     int c = 0;
     for (int i = 0; i < num_groups; i++)
     {
+        // Each group has k members, hence a thread array of size k
         Group[i].th[Group[i].k];
+
+        // Pass (Group-No, Person-No) to each thread to identify the person
         for (int j = 0; j < Group[i].k; j++)
         {
             PersonID[c].groupNo = i;

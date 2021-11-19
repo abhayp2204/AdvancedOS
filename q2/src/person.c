@@ -5,7 +5,7 @@
 void *person_function(void *arg)
 {
     // Extract structure
-    tPersonID s = *(tPersonID *)arg;
+    tPersonID s = *(tPersonID*)arg;
     int i = s.groupNo;
     int j = s.personNo;
 
