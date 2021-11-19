@@ -130,7 +130,7 @@ void printWaitSeat()
 
 void dinner(int i)
 {
-    // Some members from the group are still watching the match
+    // Some members of the group are still watching the match
     if(Group[i].Waiting < Group[i].k)
         return;
     
