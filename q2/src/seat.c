@@ -23,12 +23,11 @@ void noSeat(int G, int P)
     strcpy(str, Group[G].Person[P].Name);
     strcat(str, " could not get a seat\n");
     printy(str);
+}
 
-    WaitSeat.Person[WaitSeat.Num++] = Group[G].Person[P];
-
-    // Implement patience time
-    sleep(Group[G].Person[P].Patience);
-    printf("%s lost patience and left\n", Group[G].Person[P].Name);
+void patience(int G, int P)
+{
+    printf("%s is waiting for their friends at the exit\n", Group[G].Person[P].Name);
     Group[G].Person[P].status = WAITING;
     Group[G].Waiting++;
     dinner(G);
@@ -58,10 +57,10 @@ void seat(int i, int j, int team, int s)
         return;
 
     printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
+    printf("%s is waiting for their friends at the exit\n", Group[i].Person[j].Name);
     Group[i].Person[j].status = WAITING;
     Group[i].Waiting++;
 
-    printf("G%d: waiting = %d\n", i+1, Group[i].Waiting);
     dinner(i);
 }
 
@@ -134,7 +133,7 @@ void dinner(int i)
     if(Group[i].Waiting < Group[i].k)
         return;
     
-    // If everyone from the group is waiting, they leave for dinner
+    // Everyone from the group is waiting, they leave for dinner
     char* str = malloc(50);
     sprintf(str, COLOR_BLUE "Group %d is leaving for dinner\n" COLOR_RESET, i+1);
     printb(str);

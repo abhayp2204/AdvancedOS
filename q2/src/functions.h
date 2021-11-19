@@ -15,6 +15,8 @@ void leave();
 void waitSeat();
 void printWaitSeat();
 
+void leaveEnrage();
+
 int isZoneFull(int Zone);
 void noSeat(int G, int P);
 
@@ -24,6 +26,7 @@ int probA();
 
 void* person_function(void* arg);
 void* goal_function(void* arg);
+char* getGoalSuffix(int G);
 int seatAvailable(int i);
 
 void reach(int i, int j);
@@ -32,6 +35,10 @@ void dinner(int i);
 void leaveHOME();
 void leaveAWAY();
 void join();
+
+// Time
+char* getCurrentTime();
+void patience(int G, int P);
 
 // Utility
 void flushSTDIN();

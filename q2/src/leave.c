@@ -7,9 +7,23 @@ void leaveAWAY()
     usleep(50);
 
     // Search for people supporting AWAY team
-    for(int i = 0; i < Zone[AWAY].Capacity; i++)
+    leaveEnrage(AWAY, AWAY);
+}
+
+void leaveHOME()
+{
+    usleep(50);
+
+    // Search for people supporting AWAY team
+    leaveEnrage(HOME, HOME);
+    leaveEnrage(HOME, NEUT);
+}
+
+void leaveEnrage(int Team, int Z)
+{
+    for(int i = 0; i < Zone[Z].Capacity; i++)
     {
-        tSeat S = Zone[AWAY].Seat[i];
+        tSeat S = Zone[Z].Seat[i];
         tPerson P = S.Person;
         
         // Ignore neutral people
@@ -20,19 +34,16 @@ void leaveAWAY()
             continue;
 
         // Check enrage number
-        if(H_Goals >= P.EnrageNum)
-        {
-            usleep(50);
-            printr(strcat(Zone[AWAY].Seat[i].Person.Name, " is leaving due to bad performance of his team\n"));
-            Zone[AWAY].NumSpectators--;
-            Zone[AWAY].Seat[i].Person.Name[0] = '\0';
-            Group[S.i].Person[S.j].status = WAITING;
-            Group[S.i].Waiting++;
-        }
+        if(Goals[1-Team] < P.EnrageNum)
+            continue;
+
+        usleep(50);
+        printf(COLOR_RED "%s is leaving due to bad performance of his team\n" COLOR_RESET, Zone[Z].Seat[i].Person.Name);
+        printf("%s is waiting for their friends at the exit\n", Zone[Z].Seat[i].Person.Name);
+
+        Zone[Z].NumSpectators--;
+        Zone[Z].Seat[i].Person.Name[0] = '\0';
+        Group[S.i].Person[S.j].status = WAITING;
+        Group[S.i].Waiting++;
     }
-}
-
-void leaveHOME()
-{
-
 }

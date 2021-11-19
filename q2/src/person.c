@@ -16,27 +16,44 @@ void *person_function(void *arg)
     reach(i, j);
 
     // Decide person's zone
+    time_t arrivalTime = time(NULL);
     int seatZone;
-    switch(teamNum)
+    int c;
+    int flag = 0;
+    int timeOut = 1;
+    while(time(NULL) - arrivalTime <= Group[i].Person[j].Patience)
     {
-        case HOME: seatZone = probHome(); break;
-        case NEUT: seatZone = probNeut(); break;
-        case AWAY: seatZone = probAway(); break;
+        switch(teamNum)
+        {
+            case HOME: seatZone = probHome(); break;
+            case NEUT: seatZone = probNeut(); break;
+            case AWAY: seatZone = probAway(); break;
+        }
+
+        // Find the first available seat
+        c = seatAvailable(seatZone);
+        // printf("Seat Zone = %d\n", seatZone);
+        
+        if(c < 0 && !flag)
+        {
+            noSeat(i, j);
+            flag = 1;
+        }
+        if(c >= 0)
+        {
+            timeOut = 0;
+            break;
+        }
     }
 
-    // Find the first available seat
-    int c = seatAvailable(seatZone);
-    // printf("Seat Zone = %d\n", seatZone);
-    if(c < 0)
+    if(timeOut)
     {
-        noSeat(i, j);
+        patience(i, j);
         return NULL;
     }
 
     pthread_mutex_lock(&Zone[seatZone].SeatLocks[c]);
     seat(i, j, seatZone, c);
-    // leave();
-    // coord(i, j);
     pthread_mutex_unlock(&Zone[seatZone].SeatLocks[c]);
 
     return NULL;

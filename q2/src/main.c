@@ -13,11 +13,9 @@
 
 void main()
 {
-    WaitSeat.Num = 0;
-
     printy("Simulation has started!\n");
     input();
-    printf("-----------------------------------------------------\n");
+    printf("---------------------------------------------------------------------\n");
     tPersonID PersonID[num_people];
 
     // Person Threads
@@ -45,6 +43,8 @@ void main()
 
     // Join threads
     join();
+
+    printf("---------------------------------------------------------------------\n");
 }
 
 void join()
