@@ -10,6 +10,7 @@
 
 #define REACHED 11
 #define WAITING 12
+#define EXIT    13
 
 int X;               // Spectating time
 int num_groups;      // Total number of groups

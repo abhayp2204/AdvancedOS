@@ -26,6 +26,7 @@ void *person_function(void *arg)
 
     // Find the first available seat
     int c = seatAvailable(seatZone);
+    // printf("Seat Zone = %d\n", seatZone);
     if(c < 0)
     {
         noSeat(i, j);

@@ -27,6 +27,8 @@ void noSeat(int G, int P)
 void seat(int i, int j, int team, int s)
 {
     Zone[team].Seat[s].Person = Group[i].Person[j];
+    Zone[team].Seat[s].i = i;
+    Zone[team].Seat[s].j = j;
     Zone[team].NumSpectators++;
 
     char str[2];
@@ -42,14 +44,10 @@ void seat(int i, int j, int team, int s)
     sleep(X);
     pthread_mutex_lock(&Zone[team].SeatLocks[s]);
 
-    // Form string and print
-    char* string = malloc(100);
-    strcpy(string, Group[i].Person[j].Name);
-    strcat(string, " is leaving for home\n");
+    if(Group[i].Person[j].status == WAITING)
+        return;
 
-    // printmn(Group[i].Person[j].EnrageNum);
-    printm(string);
-    // printf("Name = %s Enrage = %d\n", Zone[team].Seat[s].Person.Name, Zone[team].Seat[s].Person.EnrageNum);
+    printf(COLOR_MAGENTA "%d: %s watched the match for %d seconds and is leaving\n" COLOR_RESET, Zone[team].Seat[s].Person.EnrageNum, Group[i].Person[j].Name, X);
 }
 
 int probHome()
@@ -76,10 +74,18 @@ int probNeut()
     float probN = (float)spaceN/(float)(sum);
     float probA = (float)spaceA/(float)(sum);
 
+    // printf("sH = %d\n", spaceH);
+    // printf("sN = %d\n", spaceN);
+    // printf("sA = %d\n", spaceA);
+
+    // printf("spec H = %d\n", Zone[HOME].NumSpectators);
+    // printf("spec N = %d\n", Zone[NEUT].NumSpectators);
+    // printf("spec A = %d\n", Zone[AWAY].NumSpectators);
+
     float random = R();
-    if(random <= probH)
+    if(random < probH)
         return HOME;
-    if(random <= probH + probN)
+    if(random < probH + probN)
         return NEUT;
     return AWAY;
 }

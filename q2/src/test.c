@@ -2,51 +2,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <time.h>
 
-#define BIG 10000000
-uint counter = 0;
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+clock_t getTime();
+void delay(int ms);
+clock_t start;
 
-void* count1(void* arg)
+int main()
 {
-    for(int i = 1; i <= BIG; i++)
-    {
-        pthread_mutex_lock(&lock);
-        counter++;
-        pthread_mutex_unlock(&lock);
-    }
-    sleep(5);
-    return NULL;
+    start = clock();
+    delay(5000);
+    printf("Hello\n");
 }
 
-void count2()
+clock_t getTime()
 {
-    for(int i = 1; i <= BIG; i++)
-    {
-        pthread_mutex_lock(&lock);
-        counter++;
-        pthread_mutex_unlock(&lock);
-    }
-    sleep(5);
+    clock_t diff = clock() - start;
+    return (diff * 1000)/CLOCKS_PER_SEC;
 }
 
-void count3()
+void delay(int ms)
 {
-    for(int i = 1; i <= BIG; i++)
-    {
-        counter++;
-    }
-    sleep(5);
-}
-
-void main()
-{
-    pthread_t thread;
-
-    pthread_create(&thread, NULL, count1, NULL);
-    count2();
-    // count3();
-
-    // pthread_join(thread, NULL);
-    printf("Counter = %d\n", counter);
+    clock_t timeDelay = ms + clock();
+    while(timeDelay > clock());
 }

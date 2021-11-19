@@ -32,6 +32,7 @@ struct stPerson
     Time ArrivalTime;
     Time Patience;
     int EnrageNum;
+    int status;
 };
 
 // Seat Structure
@@ -39,6 +40,8 @@ typedef struct stSeat tSeat;
 struct stSeat
 {
     tPerson Person;
+    int i;
+    int j;
 };
 
 // Zone Structure
