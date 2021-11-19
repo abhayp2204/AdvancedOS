@@ -28,6 +28,7 @@ int seatAvailable(int i);
 
 void reach(int i, int j);
 void seat(int i, int j, int seatZone, int seatNum);
+void dinner(int i);
 void leaveHOME();
 void leaveAWAY();
 void join();

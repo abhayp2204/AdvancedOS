@@ -66,6 +66,8 @@ void inputGroups()
 
         // Allocate memory for all persons in a group
         Group[i].Person = (tPerson*)malloc(Group[i].k * sizeof(tPerson));
+
+        Group[i].Waiting = 0;
         
         // Iterate through the persons
         for(int j = 0; j < Group[i].k; j++)

@@ -63,6 +63,7 @@ struct stGroup
 {
     int dump[10];
     int k;
+    int Waiting;
     tPerson* Person;
     pthread_t th[];
 };

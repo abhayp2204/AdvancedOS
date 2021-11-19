@@ -19,9 +19,19 @@ int seatAvailable(int teamNum)
 
 void noSeat(int G, int P)
 {
-    printy(Group[G].Person[P].Name);
-    printy(" could not get a seat\n");
+    char* str = malloc(50);
+    strcpy(str, Group[G].Person[P].Name);
+    strcat(str, " could not get a seat\n");
+    printy(str);
+
     WaitSeat.Person[WaitSeat.Num++] = Group[G].Person[P];
+
+    // Implement patience time
+    sleep(Group[G].Person[P].Patience);
+    printf("%s lost patience and left\n", Group[G].Person[P].Name);
+    Group[G].Person[P].status = WAITING;
+    Group[G].Waiting++;
+    dinner(G);
 }
 
 void seat(int i, int j, int team, int s)
@@ -47,7 +57,12 @@ void seat(int i, int j, int team, int s)
     if(Group[i].Person[j].status == WAITING)
         return;
 
-    printf(COLOR_MAGENTA "%d: %s watched the match for %d seconds and is leaving\n" COLOR_RESET, Zone[team].Seat[s].Person.EnrageNum, Group[i].Person[j].Name, X);
+    printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
+    Group[i].Person[j].status = WAITING;
+    Group[i].Waiting++;
+
+    printf("G%d: waiting = %d\n", i+1, Group[i].Waiting);
+    dinner(i);
 }
 
 int probHome()
@@ -111,4 +126,16 @@ void printWaitSeat()
     {
         printf("%d: %s\n", i+1, WaitSeat.Person[i].Name);
     }
+}
+
+void dinner(int i)
+{
+    // Some members from the group are still watching the match
+    if(Group[i].Waiting < Group[i].k)
+        return;
+    
+    // If everyone from the group is waiting, they leave for dinner
+    char* str = malloc(50);
+    sprintf(str, COLOR_BLUE "Group %d is leaving for dinner\n" COLOR_RESET, i+1);
+    printb(str);
 }

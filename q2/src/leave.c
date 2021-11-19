@@ -4,6 +4,8 @@
 
 void leaveAWAY()
 {
+    usleep(50);
+
     // Search for people supporting AWAY team
     for(int i = 0; i < Zone[AWAY].Capacity; i++)
     {
@@ -25,6 +27,7 @@ void leaveAWAY()
             Zone[AWAY].NumSpectators--;
             Zone[AWAY].Seat[i].Person.Name[0] = '\0';
             Group[S.i].Person[S.j].status = WAITING;
+            Group[S.i].Waiting++;
         }
     }
 }
