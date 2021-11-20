@@ -1,30 +1,79 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <time.h>
+#include <unistd.h>
+#include <pthread.h>
 
-clock_t getTime();
-void delay(int s);
-clock_t start;
+int initialized = 0;
+int initialized2 = 0;
 
-int main()
+char* message;
+char* message2;
+
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t  cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t  cond2 = PTHREAD_COND_INITIALIZER;
+
+void* function1(void* arg);
+void* function2(void* arg);
+void* function3(void* arg);
+
+void main()
 {
-    start = clock();
-    delay(5);
-    clock_t t = getTime();
-    printf("t = %ld\n", t);
-    // printf("Hello\n");
+    pthread_t th1, th2, th3;
+    pthread_mutex_init(&lock, NULL);
+
+    pthread_create(&th2, NULL, function2, NULL);
+    pthread_create(&th3, NULL, function3, NULL);
+    pthread_create(&th1, NULL, function1, NULL);
+
+    pthread_join(th1, NULL);
+    pthread_join(th2, NULL);
+    pthread_join(th3, NULL);
 }
 
-clock_t getTime()
+void* function1(void* arg)
 {
-    clock_t diff = clock() - start;
-    return diff/CLOCKS_PER_SEC;
+    message = "Hello World!";
+
+    pthread_mutex_lock(&lock);
+    initialized = 1;
+    pthread_cond_signal(&cond);
+    pthread_mutex_unlock(&lock);
+
+    sleep(3);
+    message2 = "Goodbye!";
+
+    pthread_mutex_lock(&lock);
+    initialized2 = 1;
+    pthread_cond_signal(&cond2);
+    pthread_mutex_unlock(&lock);
+
+    return NULL;
 }
 
-void delay(int s)
+void* function2(void* arg)
 {
-    s *= 1000000;
-    clock_t timeDelay = s + clock();
-    while(timeDelay > clock());
+    pthread_mutex_lock(&lock);
+    while(initialized == 0)
+    {
+        pthread_cond_wait(&cond, &lock);
+    }
+    pthread_mutex_unlock(&lock);
+
+    printf("%s\n", message);
+    return NULL;
+}
+
+void* function3(void* arg)
+{
+    pthread_mutex_lock(&lock);
+    while(initialized2 == 0)
+    {
+        pthread_cond_wait(&cond2, &lock);
+    }
+    pthread_mutex_unlock(&lock);
+
+    printf("%s\n", message2);
+    return NULL;
 }
