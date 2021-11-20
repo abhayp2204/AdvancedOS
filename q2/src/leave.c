@@ -45,5 +45,9 @@ void leaveEnrage(int Team, int Z)
         Zone[Z].Seat[i].Person.Name[0] = '\0';
         Group[S.i].Person[S.j].status = WAITING;
         Group[S.i].Waiting++;
+
+        pthread_mutex_lock(&lock);
+        pthread_cond_signal(&cond_seat_freed);
+        pthread_mutex_unlock(&lock);
     }
 }

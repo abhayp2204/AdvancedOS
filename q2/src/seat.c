@@ -58,6 +58,11 @@ void seat(int i, int j, int team, int s)
 
     printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
     printf("%s is waiting for their friends at the exit\n", Group[i].Person[j].Name);
+
+    pthread_mutex_lock(&lock);
+    pthread_cond_signal(&cond_seat_freed);
+    pthread_mutex_unlock(&lock);
+
     Group[i].Person[j].status = WAITING;
     Group[i].Waiting++;
 

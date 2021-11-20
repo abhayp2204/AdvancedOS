@@ -23,7 +23,8 @@ void *person_function(void *arg)
     int c;
     int flag = 0;
     int timeOut = 1;
-    while(time(NULL) - arrivalTime <= Group[i].Person[j].Patience)
+
+    do
     {
         switch(teamNum)
         {
@@ -34,7 +35,6 @@ void *person_function(void *arg)
 
         // Find the first available seat
         c = seatAvailable(seatZone);
-        // printf("Seat Zone = %d\n", seatZone);
         
         if(c < 0 && !flag)
         {
@@ -43,10 +43,15 @@ void *person_function(void *arg)
         }
         if(c >= 0)
         {
+            // seat_freed = 0;
             timeOut = 0;
             break;
         }
-    }
+
+        // pthread_cond_wait(&cond_seat_freed, &lock);
+        pthread_cond_wait(&cond_seat_freed, &Zone[seatZone].SeatLocks[c]);
+
+    }while(time(NULL) - arrivalTime <= Group[i].Person[j].Patience);
 
     if(timeOut)
     {
