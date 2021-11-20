@@ -33,6 +33,9 @@ void leaveEnrage(int Team, int Z)
         if(!strlen(P.Name))
             continue;
 
+        if(Group[S.i].Person[S.j].status == WAITING)
+            continue;
+
         // Check enrage number
         if(Goals[1-Team] < P.EnrageNum)
             continue;

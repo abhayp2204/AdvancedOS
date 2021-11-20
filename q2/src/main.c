@@ -15,7 +15,7 @@ void main()
 {
     printy("Simulation has started!\n");
     input();
-    printf("---------------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------------\n");
 
     // Person Threads
     tPersonID PersonID[num_people];
@@ -44,7 +44,7 @@ void main()
     // Join threads
     join();
 
-    printf("---------------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------------\n");
 }
 
 void join()
@@ -54,13 +54,15 @@ void join()
     {
         for (int j = 0; j < Group[i].k; j++)
         {
-            pthread_join(Group[i].th[j], NULL);
+            // pthread_join(Group[i].th[j], NULL);
+            pthread_exit(Group[i].th[j]);
         }
     }
 
     // Join goal threads
     for(int i = 0; i < G; i++)
     {
-        pthread_join(goal_thread[i], NULL);
+        // pthread_join(goal_thread[i], NULL);
+        pthread_exit(goal_thread[i]);
     }
 }

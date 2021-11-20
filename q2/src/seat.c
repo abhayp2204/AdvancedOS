@@ -42,12 +42,18 @@ void seat(int i, int j, int team, int s)
 
     char str[2];
     str[0] = getZoneAsChar(team);
+    char ch = getZoneAsChar(team);
     str[1] = '\n';
 
     char* name = malloc(50);
     strcpy(name, Group[i].Person[j].Name);
 
-    printy(strcat(strcat(name, " has got a seat in zone "), str));
+    // printy(strcat(strcat(name, " has got a seat in zone "), str));
+    printf(COLOR_YELLOW "%s has got a seat in zone %c (%d/%d)\n" COLOR_RESET, 
+            Group[i].Person[j].Name,
+            ch,
+            Zone[team].NumSpectators,
+            Zone[team].Capacity);
 
     pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
     sleep(X);
@@ -59,12 +65,12 @@ void seat(int i, int j, int team, int s)
     printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
     printf("%s is waiting for their friends at the exit\n", Group[i].Person[j].Name);
 
+    Group[i].Person[j].status = WAITING;
+    Group[i].Waiting++;
+
     pthread_mutex_lock(&lock);
     pthread_cond_signal(&cond_seat_freed);
     pthread_mutex_unlock(&lock);
-
-    Group[i].Person[j].status = WAITING;
-    Group[i].Waiting++;
 
     dinner(i);
 }
