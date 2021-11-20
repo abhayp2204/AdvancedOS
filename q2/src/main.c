@@ -16,9 +16,9 @@ void main()
     printy("Simulation has started!\n");
     input();
     printf("---------------------------------------------------------------------\n");
-    tPersonID PersonID[num_people];
 
     // Person Threads
+    tPersonID PersonID[num_people];
     int c = 0;
     for (int i = 0; i < num_groups; i++)
     {

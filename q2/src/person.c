@@ -4,6 +4,8 @@
 
 void *person_function(void *arg)
 {
+    // sleep(5);
+
     // Extract structure
     tPersonID s = *(tPersonID*)arg;
     int i = s.groupNo;
