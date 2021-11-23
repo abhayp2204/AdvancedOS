@@ -18,6 +18,14 @@
 #define COLOR_CYAN    "\x1b[36m"
 #define COLOR_RESET   "\x1b[0m"
 
+// Course/Mentor status
+#define FREE 0
+#define OCCUPIED 1
+
+// Student status
+#define NOT_FILLED 0
+#define FILLED 1
+
 // Types
 typedef uint Time;
 
@@ -29,8 +37,21 @@ struct stCourse
     char Name[10];
     float Interest;
     int MaxSlots;
+    int Slots;
+    int SlotsFilled;
     int NumLabs;
     int* LabID;
+    int Status;
+};
+
+// Mentor Structure
+typedef struct stMentor tMentor;
+struct stMentor
+{
+    int ID;
+    int Num;
+    int Status;
+    pthread_mutex_t MentorLock;
 };
 
 // Lab Structure
@@ -39,18 +60,21 @@ struct stLab
 {
     char Name[10];
     int NumMentors;
-    int MaxTA;
+    tMentor* Mentor;
+    int Max;
 };
 
 // Student Structure
 typedef struct stStudent tStudent;
 struct stStudent
 {
+    // int dump[10];
     int StudentID;
     float Calibre;
-    int Pref[2];
     int Current;
+    int Pref[2];
     Time FillTime;
+    int Status;
 };
 
 

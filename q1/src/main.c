@@ -6,8 +6,9 @@
 #include "variables.h"
 #include "functions.h"
 #include "input.c"
+#include "student.c"
+#include "course.c"
 // #include "seat.c"
-// #include "person.c"
 // #include "goal.c"
 // #include "leave.c"
 
@@ -18,11 +19,21 @@ void main()
     printf("------------------------------------------------------------------------\n");
 
     // Thread for each student
-    th[numStudents];
-
+    thStudent = (pthread_t*)malloc(numStudents * sizeof(pthread_t));
     for(int i = 0; i < numStudents; i++)
     {
-        pthread_create(&th[i], NULL, studentFunction, &i);
+        pthread_create(&thStudent[i], NULL, studentFunction, &i);
+        usleep(20);
+    }
+
+    sleep(1);
+
+    // Thread for each course
+    thCourse = (pthread_t*)malloc(numCourses * sizeof(pthread_t));
+    for(int i = 0; i < numCourses; i++)
+    {
+        pthread_create(&thCourse[i], NULL, courseFunction, &i);
+        usleep(20);
     }
 
     threadExit();
@@ -64,6 +75,16 @@ void threadExit()
     // Exit student threads
     for (int i = 0; i < numStudents; i++)
     {
-        pthread_exit(th[i]);
+        pthread_exit(thStudent[i]);
+    }
+    // Exit course threads
+    for (int i = 0; i < numCourses; i++)
+    {
+        pthread_exit(thCourse[i]);
+    }
+    // Exit student threads
+    for (int i = 0; i < numLabs; i++)
+    {
+        pthread_exit(thLab[i]);
     }
 }

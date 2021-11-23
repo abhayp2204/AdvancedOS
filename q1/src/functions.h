@@ -14,6 +14,16 @@ void threadExit();
 
 // Student
 void* studentFunction(void* arg);
+    void courseRegister(int i);
+
+// Course
+void* courseFunction(void* arg);
+    void allocateMentor(int i);
+    void numSlots(int i);
+    void allocateSeats(int C);
+
+// Lab
+void* labFunction(void* arg);
 
 // Utility
 void flushSTDIN();
@@ -21,5 +31,6 @@ void a();
 void b();
 int P(float n);
 float R();
+int randint(int L);
 
 #endif

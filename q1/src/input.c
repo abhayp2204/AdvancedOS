@@ -21,8 +21,10 @@ void inputCourses()
         // Prefix
         printf(COLOR_RED "C%d: " COLOR_RESET, i+1);
 
-        // Set Course ID
+        // Set Course ID and status
         Course[i].CourseID = i;
+        Course[i].Status = FREE;
+        Course[i].SlotsFilled = 0;
 
         // Input course variables
         scanf("%s %f %d %d", 
@@ -55,6 +57,7 @@ void inputStudents()
         // Set student ID
         Student[i].StudentID = i;
         Student[i].Current = 0;
+        Student[i].Status = NOT_FILLED;
 
         // Input student variables
         scanf("%f %d %d %d %d", 
@@ -65,7 +68,6 @@ void inputStudents()
                 &Student[i].FillTime);
     }
 }
-
 
 void inputLabs()
 {
@@ -78,11 +80,21 @@ void inputLabs()
         // Prefix
         printf(COLOR_GREEN "L%d: " COLOR_RESET, i+1);
 
-        // Input goal variables
+        // Initialize all TA's
+        Lab[i].Mentor = (tMentor*)malloc((Lab[i].NumMentors + 1) * sizeof(tMentor));
+        for(int j = 0; j < Lab[i].NumMentors; j++)
+        {
+            Lab[i].Mentor[j].ID = j;
+            Lab[i].Mentor[j].Num = 0;
+            Lab[i].Mentor[j].Status = FREE;
+            pthread_mutex_init(&Lab[i].Mentor[j].MentorLock, NULL);
+        }
+
+        // Input lab variables
         scanf("%s %d %f", 
                 &Lab[i].Name,
                 &Lab[i].NumMentors,
-                &Lab[i].MaxTA);
+                &Lab[i].Max);
     }   
     printf("\n");
 }
