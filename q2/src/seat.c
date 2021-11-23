@@ -24,23 +24,16 @@ void noSeat(int G, int P)
 
 void seat(int i, int j, int team, int s)
 {
+    // Push
     Zone[team].Seat[s].Person = Group[i].Person[j];
     Zone[team].Seat[s].i = i;
     Zone[team].Seat[s].j = j;
     Zone[team].NumSpectators++;
 
-    char str[2];
-    str[0] = getZoneAsChar(team);
-    char ch = getZoneAsChar(team);
-    str[1] = '\n';
-
-    char* name = malloc(50);
-    strcpy(name, Group[i].Person[j].Name);
-
-    // printy(strcat(strcat(name, " has got a seat in zone "), str));
+    // Display
     printf(COLOR_YELLOW "%s has got a seat in zone %c (%d/%d)\n" COLOR_RESET, 
             Group[i].Person[j].Name,
-            ch,
+            getZoneAsChar(team),
             Zone[team].NumSpectators,
             Zone[team].Capacity);
 
@@ -54,6 +47,7 @@ void seat(int i, int j, int team, int s)
     printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
     printf("%s is waiting for their friends at the exit\n", Group[i].Person[j].Name);
 
+    // Pop
     Zone[team].NumSpectators--;
     Zone[team].Seat[i].Person.Name[0] = '\0';
     Group[i].Person[j].status = WAITING;
