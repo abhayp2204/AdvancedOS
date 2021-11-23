@@ -24,7 +24,7 @@ int probAway();
 
 // Goal
 void* goal_function(void* arg);
-char* getGoalSuffix(int G);
+    char* getGoalSuffix(int G);
 
 // Person
 void* person_function(void* arg);
