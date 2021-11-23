@@ -17,9 +17,10 @@ void main()
     input();
     printf("------------------------------------------------------------------------\n");
 
-    // Person Threads
     tPersonID PersonID[num_people];
     int c = 0;
+    
+    // Person Threads
     for (int i = 0; i < num_groups; i++)
     {
         // Each group has k members, hence a thread array of size k
