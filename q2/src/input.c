@@ -7,14 +7,16 @@ void input()
 {
     inputZones();
 
-    printb("Spectating Time: ");
+    printf(COLOR_BLUE "Spectating Time: " COLOR_RESET);
     scanf("%d", &X);
 
-    printr("Number of groups: ");
+    // Groups, Persons
+    printf(COLOR_RED "Number of groups: " COLOR_RESET);
     scanf("%d", &num_groups);
     inputGroups();
 
-    printg("\nNumber of goal scoring chances: ");
+    // Goals
+    printf(COLOR_GREEN "\nNumber of goal scoring chances: " COLOR_RESET);
     scanf("%d", &G);
     goal_thread = (pthread_t*)malloc(G * sizeof(pthread_t));
     inputGoals();
@@ -22,17 +24,18 @@ void input()
 
 void inputZones()
 {
-    Zone[0].Type = 'H';         // Home
-    Zone[1].Type = 'A';         // Away
-    Zone[2].Type = 'N';         // Neutral
+    Zone[HOME].Type = 'H';         // Home
+    Zone[AWAY].Type = 'A';         // Away
+    Zone[NEUT].Type = 'N';         // Neutral
 
-    printb("Home | Away | Neutral\n");
+    // Input zone capacities
+    printf(COLOR_BLUE "Home | Away | Neutral\n" COLOR_RESET);
     scanf("%d %d %d", &Zone[0].Capacity, &Zone[1].Capacity, &Zone[2].Capacity);
 
     // Iterate through all the zones
     for(int i = 0; i < 3; i++)
     {
-        // Intialize zones and Create locks for every seat
+        // Intialize zones. Create locks for every seat in a zone
         Zone[i].NumSpectators = 0;
         Zone[i].Spectator = (tPerson*)malloc(Zone[i].Capacity * sizeof(tPerson));
         Zone[i].Seat = malloc(Zone[i].Capacity * sizeof(tSeat));
@@ -44,7 +47,6 @@ void inputZones()
             pthread_mutex_init(&Zone[i].SeatLocks[j], NULL);
         }
     }
-    WaitSeat.Person = (tPerson*)malloc(20*sizeof(tPerson));
 }
 
 void inputGroups()
@@ -55,34 +57,40 @@ void inputGroups()
     for(int i = 0; i < num_groups; i++)
     {
         flushSTDIN();
-        printr("\n(Group ");
-        printrn(i+1);
-        printr(")\n");
+        printf(COLOR_RED "\n(Group %d)\n" COLOR_RESET, i+1);
 
         // Number of people in group i
-        printr("Number: ");
+        printf(COLOR_RED "Number: " COLOR_RESET);
         scanf("%d", &Group[i].k);
         num_people += Group[i].k;
 
         // Allocate memory for all persons in a group
         Group[i].Person = (tPerson*)malloc(Group[i].k * sizeof(tPerson));
 
+        // Initially, no one is waiting
         Group[i].Waiting = 0;
         
-        // Iterate through the persons
-        for(int j = 0; j < Group[i].k; j++)
-        {
-            printr("P");
-            printrn(j+1);
-            printr(": ");
-            scanf("%s %c %d %d %d", 
-                  &Group[i].Person[j].Name,
-                  &Group[i].Person[j].SupportTeam,
-                  &Group[i].Person[j].ArrivalTime,
-                  &Group[i].Person[j].Patience,
-                  &Group[i].Person[j].EnrageNum);
-            // Group[i].Person[j].status = REACHED;
-        }
+        // Input persons in the group
+        inputPersons(i);
+    }
+}
+
+void inputPersons(int i)
+{
+    // Iterate through all the persons in the group
+    for(int j = 0; j < Group[i].k; j++)
+    {
+        // Prefix
+        printf(COLOR_RED "P%d: " COLOR_RESET, j+1);
+
+        // Input person variables
+        scanf("%s %c %d %d %d", 
+                &Group[i].Person[j].Name,
+                &Group[i].Person[j].SupportTeam,
+                &Group[i].Person[j].ArrivalTime,
+                &Group[i].Person[j].Patience,
+                &Group[i].Person[j].EnrageNum);
+        // Group[i].Person[j].status = REACHED;
     }
 }
 
@@ -95,14 +103,14 @@ void inputGoals()
         pthread_mutex_init(&Goal[i].GoalLock, NULL);
         flushSTDIN();
 
-        printg("G");
-        printgn(i+1);
-        printg(": ");
+        // Prefix
+        printf(COLOR_GREEN "G%d: " COLOR_RESET, i+1);
 
+        // Input goal variables
         scanf("%c %d %f", 
-              &Goal[i].Team,
-              &Goal[i].GoalTime,
-              &Goal[i].GoalProb);
+                &Goal[i].Team,
+                &Goal[i].GoalTime,
+                &Goal[i].GoalProb);
     }   
     printf("\n");
 }

@@ -82,22 +82,6 @@ struct stGoal
 tGoal* Goal;
 
 // Person info structure
-struct stPersonInfo
-{
-    int group_no;
-    int person_no;
-};
-typedef struct stPersonInfo PersonInfo;
-PersonInfo s[10];
-
-struct stWaitSeat
-{
-    tPerson* Person;
-    int Num;
-};
-typedef struct stWaitSeat tWaitSeat;
-tWaitSeat WaitSeat;
-
 struct stPersonID
 {
     int dump[10];

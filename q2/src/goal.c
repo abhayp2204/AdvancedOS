@@ -5,8 +5,6 @@
 void *goal_function(void* arg)
 {
     int i = *(int*)arg;
-    // pthread_mutex_lock(&Goal[i].GoalLock);
-    // printf("G: i=%d time=%d prob=%f\n", i, Goal[i].GoalTime, Goal[i].GoalProb);
     sleep(Goal[i].GoalTime);
     usleep(500);
 
@@ -45,8 +43,8 @@ char* getGoalSuffix(int Goals)
 {
     int secondLastDigit = (Goals/10) % 10;
 
-    // Handle excpetions: 11th and 12th
-    if(secondLastDigit)
+    // Handle excpetions: 11th, 12th and 13th
+    if(secondLastDigit == 1)
         return "th";
 
     switch(Goals)

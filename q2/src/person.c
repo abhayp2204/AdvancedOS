@@ -4,8 +4,6 @@
 
 void *person_function(void *arg)
 {
-    // sleep(5);
-
     // Extract structure
     tPersonID s = *(tPersonID*)arg;
     int i = s.groupNo;
@@ -69,7 +67,23 @@ void *person_function(void *arg)
 void reach(int i, int j)
 {
     sleep(Group[i].Person[j].ArrivalTime);
-    char *str = malloc(30);
-    strcpy(str, Group[i].Person[j].Name);
-    printc(strcat(str, " has reached the stadium\n"));
+    printf(COLOR_CYAN "%s has reached the stadium\n" COLOR_RESET, Group[i].Person[j].Name);
+}
+
+void patience(int G, int P)
+{
+    printf("%s is waiting for their friends at the exit\n", Group[G].Person[P].Name);
+    Group[G].Person[P].status = WAITING;
+    Group[G].Waiting++;
+    dinner(G);
+}
+
+void dinner(int i)
+{
+    // Some members of the group are still watching the match
+    if(Group[i].Waiting < Group[i].k)
+        return;
+    
+    // Everyone from the group is waiting, they leave for dinner
+    printf(COLOR_BLUE "Group %d is leaving for dinner\n" COLOR_RESET, i+1);
 }

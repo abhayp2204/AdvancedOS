@@ -13,7 +13,7 @@
 
 void main()
 {
-    printy("Simulation has started!\n");
+    printf(COLOR_YELLOW "Simulation has started!\n" COLOR_RESET);
     input();
     printf("------------------------------------------------------------------------\n");
 
