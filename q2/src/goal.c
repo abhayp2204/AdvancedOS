@@ -37,6 +37,8 @@ void *goal_function(void* arg)
     }
     // Goal Missed
     printf(COLOR_GREEN "Team %c has missed!\n" COLOR_RESET, Goal[i].Team);
+
+    pthread_exit(goal_thread[i]);
 }
 
 char* getGoalSuffix(int Goals)

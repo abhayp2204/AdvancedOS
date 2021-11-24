@@ -60,10 +60,10 @@ void join()
         }
     }
 
-    // Join goal threads
-    for(int i = 0; i < G; i++)
-    {
-        // pthread_join(goal_thread[i], NULL);
-        pthread_exit(goal_thread[i]);
-    }
+    // // Join goal threads
+    // for(int i = 0; i < G; i++)
+    // {
+    //     // pthread_join(goal_thread[i], NULL);
+    //     pthread_exit(goal_thread[i]);
+    // }
 }
