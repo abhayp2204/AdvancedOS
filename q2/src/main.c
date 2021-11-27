@@ -19,6 +19,7 @@ void main()
 
     tPersonID PersonID[num_people];
     int c = 0;
+    startTime = time(NULL);
     
     // Person Threads
     for (int i = 0; i < num_groups; i++)
@@ -32,6 +33,7 @@ void main()
             PersonID[c].groupNo = i;
             PersonID[c].personNo = j;
             pthread_create(&Group[i].th[j], NULL, person_function, &PersonID[c++]);
+            usleep(50);
         }
     }
 
@@ -55,15 +57,16 @@ void join()
     {
         for (int j = 0; j < Group[i].k; j++)
         {
-            // pthread_join(Group[i].th[j], NULL);
-            pthread_exit(Group[i].th[j]);
+            pthread_join(Group[i].th[j], NULL);
+            // pthread_exit(Group[i].th[j]);
         }
     }
 
     // // Join goal threads
-    // for(int i = 0; i < G; i++)
-    // {
-    //     // pthread_join(goal_thread[i], NULL);
-    //     pthread_exit(goal_thread[i]);
-    // }
+    for(int i = 0; i < G; i++)
+    {
+        pthread_join(goal_thread[i], NULL);
+        // pthread_exit(goal_thread[i]);
+    }
+    exit(0);
 }

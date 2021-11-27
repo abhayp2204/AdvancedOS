@@ -29,7 +29,7 @@ void leaveEnrage(int T, int Z)
         tPerson P = S.Person;
         
         // Ignore neutral people
-        if(P.SupportTeam == 'N')
+        if(Zone[Z].Seat[i].Person.SupportTeam == 'N')
             continue;
 
         if(!strlen(P.Name))
@@ -52,10 +52,12 @@ void leaveEnrage(int T, int Z)
         Group[S.i].Person[S.j].status = WAITING;
         Group[S.i].Waiting++;
 
+
         // Send a signal so that threads of people who could not get a
         // seat can start looking for a seat after a person has left
-        pthread_mutex_lock(&lock);
-        pthread_cond_signal(&cond_seat_freed);
-        pthread_mutex_unlock(&lock);
+        // pthread_mutex_lock(&Group[S.i].Person[S.j].PersonLock);
+        pthread_cond_broadcast(&cond_seat_freed);
+        // pthread_mutex_unlock(&Group[S.i].Person[S.j].PersonLock);
+
     }
 }

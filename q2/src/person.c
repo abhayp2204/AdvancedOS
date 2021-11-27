@@ -47,7 +47,9 @@ void *person_function(void *arg)
         }
 
         // pthread_cond_wait(&cond_seat_freed, &lock);
-        pthread_cond_wait(&cond_seat_freed, &Zone[seatZone].SeatLocks[c]);
+        // pthread_cond_timedwait(&cond_seat_freed, &Zone[seatZone].SeatLocks[c], Group[i].Person[j].Patience);
+        // pthread_cond_wait(&cond_seat_freed, &Zone[seatZone].SeatLocks[c]);
+        pthread_cond_wait(&cond_seat_freed, &Group[i].Person[j].PersonLock);
 
     }while(time(NULL) - arrivalTime <= Group[i].Person[j].Patience);
 

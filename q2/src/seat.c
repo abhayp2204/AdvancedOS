@@ -24,40 +24,48 @@ void noSeat(int G, int P)
 
 void seat(int i, int j, int team, int s)
 {
-    // Push
     Zone[team].Seat[s].Person = Group[i].Person[j];
     Zone[team].Seat[s].i = i;
     Zone[team].Seat[s].j = j;
-    Zone[team].NumSpectators++;
 
-    // Display
-    printf(COLOR_YELLOW "%s has got a seat in zone %c (%d/%d)\n" COLOR_RESET, 
+    char str[2];
+    str[0] = getZoneAsChar(team);
+    char ch = getZoneAsChar(team);
+    str[1] = '\n';
+
+    char* name = malloc(50);
+    strcpy(name, Group[i].Person[j].Name);
+
+    pthread_mutex_lock(&lock);
+    printf(COLOR_YELLOW "%s has got a seat in zone %c\n" COLOR_RESET, 
             Group[i].Person[j].Name,
-            getZoneAsChar(team),
-            Zone[team].NumSpectators,
-            Zone[team].Capacity);
+            ch);
+    pthread_mutex_unlock(&lock);
+
+    if(Group[i].Person[j].SupportTeam == 'H')
+        leaveHOME();
+    if(Group[i].Person[j].SupportTeam == 'A')
+        leaveAWAY();
+
 
     pthread_mutex_unlock(&Zone[team].SeatLocks[s]);
     sleep(X);
     pthread_mutex_lock(&Zone[team].SeatLocks[s]);
 
-    // Person already left
     if(Group[i].Person[j].status == WAITING)
         return;
 
-    // Spectating time over
     printf(COLOR_MAGENTA "%s watched the match for %d seconds and is leaving\n" COLOR_RESET, Group[i].Person[j].Name, X);
     printf("%s is waiting for their friends at the exit\n", Group[i].Person[j].Name);
 
-    // Pop
     Zone[team].NumSpectators--;
     Zone[team].Seat[i].Person.Name[0] = '\0';
     Group[i].Person[j].status = WAITING;
     Group[i].Waiting++;
 
-    pthread_mutex_lock(&lock);
+    pthread_mutex_lock(&Group[i].Person[j].PersonLock);
     pthread_cond_signal(&cond_seat_freed);
-    pthread_mutex_unlock(&lock);
+    pthread_mutex_unlock(&Group[i].Person[j].PersonLock);
 
     dinner(i);
 }

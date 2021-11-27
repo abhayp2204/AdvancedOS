@@ -18,7 +18,7 @@ void *goal_function(void* arg)
         {
             Goals[HOME]++;
             strcpy(suffix, getGoalSuffix(Goals[HOME]));
-            printf(COLOR_GREEN "Team H has scored their %d%s goal!\n" COLOR_RESET, Goals[HOME], suffix);
+            printf(COLOR_GREEN "Team FC Messilona has scored their %d%s goal!\n" COLOR_RESET, Goals[HOME], suffix);
 
             // People supporting AWAY team may leave
             leaveAWAY();
@@ -28,17 +28,31 @@ void *goal_function(void* arg)
         {
             Goals[AWAY]++;
             strcpy(suffix, getGoalSuffix(Goals[AWAY]));
-            printf(COLOR_GREEN "Team A has scored their %d%s goal!\n" COLOR_RESET, Goals[AWAY], suffix);
+            printf(COLOR_GREEN "Team Benzdrid CF has scored their %d%s goal!\n" COLOR_RESET, Goals[AWAY], suffix);
 
             // People supporting HOME team may leave
             leaveHOME();
         }
-        return NULL;
     }
     // Goal Missed
-    printf(COLOR_GREEN "Team %c has missed!\n" COLOR_RESET, Goal[i].Team);
+    else
+    {
+        if(Goal[i].Team == 'H')
+        {
+            printf(COLOR_GREEN "Team FC Messilona has missed the chance to score their %d%s goal\n" COLOR_RESET,
+                Goals[HOME]+1, getGoalSuffix(Goals[HOME]+1));
+        }
+        else
+        {
+            printf(COLOR_GREEN "Team Benzdrid CF has missed the chance to score their %d%s goal\n" COLOR_RESET,
+                Goals[AWAY]+1, getGoalSuffix(Goals[AWAY]+1));
+        }
+    }
 
-    pthread_exit(goal_thread[i]);
+    if(Goal[i].GoalTime == maxTime)
+        exit(0);
+
+    return NULL;
 }
 
 char* getGoalSuffix(int Goals)

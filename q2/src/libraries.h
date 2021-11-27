@@ -33,6 +33,7 @@ struct stPerson
     Time Patience;
     int EnrageNum;
     int status;
+    pthread_mutex_t PersonLock;
 };
 
 // Seat Structure

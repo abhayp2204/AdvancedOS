@@ -39,6 +39,8 @@ void join();
 void flushSTDIN();
 void a();
 void b();
+void c();
+void d();
 int P(float n);
 float R();
 

@@ -16,6 +16,8 @@ int X;               // Spectating time
 int num_groups;      // Total number of groups
 int num_people = 0;
 int G;               // Number of goal scoring chances
+time_t startTime;
+time_t maxTime = 0;
 
 int Goals[2];
 

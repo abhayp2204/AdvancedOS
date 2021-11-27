@@ -90,7 +90,11 @@ void inputPersons(int i)
                 &Group[i].Person[j].ArrivalTime,
                 &Group[i].Person[j].Patience,
                 &Group[i].Person[j].EnrageNum);
-        // Group[i].Person[j].status = REACHED;
+
+        if(Group[i].Person[j].ArrivalTime > maxTime)
+            maxTime = Group[i].Person[j].ArrivalTime;
+        
+        pthread_mutex_init(&Group[i].Person[j].PersonLock , NULL);
     }
 }
 
@@ -111,50 +115,9 @@ void inputGoals()
                 &Goal[i].Team,
                 &Goal[i].GoalTime,
                 &Goal[i].GoalProb);
+
+        if(Goal[i].GoalTime > maxTime)
+            maxTime = Goal[i].GoalTime;
     }   
     printf("\n");
-}
-
-void printZone(int i)
-{
-    printf("\nType = %c\n", Zone[i].Type);
-    printf("Capacity = %d\n", Zone[i].Capacity);
-    for(int j = 0; j < Zone[i].NumSpectators; j++)
-    {
-        printf("%d: %s\n", j+1, Zone[i].Spectator[j].Name);
-    }
-    printf("\n");
-}
-
-void printGroup(int i)
-{
-    printr("(Group ");
-    printrn(i+1);
-    printr(")\n");
-
-    printr("Number: ");
-    printrn(Group[i].k);
-    printr("\n");
-
-    for(int j = 0; j < Group[i].k; j++)
-    {
-        printr("P");
-        printrn(j+1);
-        printr(": ");
-
-        printf("%s\t", Group[i].Person[j].Name);
-        printf("%c  ", Group[i].Person[j].SupportTeam);
-        printf("%d  ", Group[i].Person[j].ArrivalTime);
-        printf("%d  ", Group[i].Person[j].Patience);
-        printf("%d\n", Group[i].Person[j].EnrageNum);
-    }
-    printf("\n");
-}
-
-void printGoals()
-{
-    for(int i = 0; i < G; i++)
-    {
-        printf("G%d: %c %d %f\n", i+1, Goal[i].Team, Goal[i].GoalTime, Goal[i].GoalProb);
-    }
 }
